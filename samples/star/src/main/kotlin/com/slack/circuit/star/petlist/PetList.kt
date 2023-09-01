@@ -330,17 +330,8 @@ private fun PetListGrid(
     )
   Box(modifier = modifier.pullRefresh(pullRefreshState)) {
     @Suppress("MagicNumber")
-    val columnSpan =
-      when (LocalWindowWidthSizeClass.current) {
-        WindowWidthSizeClass.Medium -> 3
-        WindowWidthSizeClass.Expanded -> 4
-        // No exhaustive whens available here
-        else -> 2
-      }
-
-    @Suppress("MagicNumber")
     LazyVerticalStaggeredGrid(
-      columns = StaggeredGridCells.Fixed(columnSpan),
+      columns = StaggeredGridCells.Adaptive(200.dp),
       modifier = Modifier.fillMaxSize().testTag(GRID_TAG),
       verticalItemSpacing = 16.dp,
       horizontalArrangement = spacedBy(16.dp),
@@ -353,7 +344,9 @@ private fun PetListGrid(
         val animal = animals[index]
         // TODO eventually animate item placement once it's implemented
         //  https://issuetracker.google.com/issues/257034719
-        PetListGridItem(animal) {
+        PetListGridItem(
+          animal = animal,
+        ) {
           eventSink(PetListScreen.Event.ClickAnimal(animal.id, animal.imageUrl))
         }
       }
